@@ -1,6 +1,6 @@
 package basic.sgg;
 
-///单链表增删改查
+///单链表增删改查练习
 public class Lesson02 {
 
 	public static void main(String[] args) {
@@ -10,6 +10,52 @@ public class Lesson02 {
 //		test3(list);
 //		test4(list);
 //		test5(list);
+//		test6(list);
+//		test7(list);
+	}
+
+	/// 约瑟夫环模拟
+	static void test7(SingleLinkedList list) {
+		// 生成节点
+		for (int i = 1; i < N.getNum(2, 20); i++) {
+			list.add(new ListNode(i));
+		}
+		P.printLinkedList(list.getHead());
+		// 组成环
+		list.loop(0);
+		int n = N.getNum(1, 5);
+		ListNode head = list.getHead();
+		// 获得第一个节点的前一个节点
+		ListNode pre = head;
+		while (pre.next != head) {
+			pre = pre.next;
+		}
+		int current = 1;
+		System.out.println("n=" + n);
+		// 模拟报数，报到的节点退出链表
+		while (head.next != head) {
+			if (current == n) {// 当前节点报到数为n
+				System.out.print(head.val + " ");
+				head = head.next;
+				pre.next = head;
+				current = 1;
+				continue;
+			}
+			current++;
+			head = head.next;
+			pre = pre.next;
+		}
+		System.out.print(head.val + " ");
+	}
+
+	/// 是否是环结构
+	static void test6(SingleLinkedList list) {
+		// 生成节点
+		test2(list, 0, 5);
+		// 组成环
+		list.loop(3);
+		System.out.println("链表是否是环结构？" + list.isLoop());
+
 	}
 
 	/// 删除倒数第n个节点
@@ -45,7 +91,7 @@ public class Lesson02 {
 		for (int i = min; i < max; i++) {
 			list.addByOrder(new ListNode(N.getNum(1, 25)));
 		}
-		P.printLinkedList(list.getHead().next);
+		P.printLinkedList(list.getHead());
 	}
 
 	/// 添加到节点末尾
@@ -56,7 +102,7 @@ public class Lesson02 {
 		for (int i = min; i < max; i++) {
 			list.add(new ListNode(i));
 		}
-		P.printLinkedList(list.getHead().next);
+		P.printLinkedList(list.getHead());
 	}
 
 	static class SingleLinkedList {
@@ -64,11 +110,7 @@ public class Lesson02 {
 		private ListNode head = new ListNode(-1);
 
 		public ListNode getHead() {
-			return head;
-		}
-
-		public void setHead(ListNode head) {
-			this.head = head;
+			return head.next;
 		}
 
 		/// 添加新节点到末尾
@@ -112,6 +154,20 @@ public class Lesson02 {
 				temp = temp.next;
 			}
 			return false;
+		}
+
+		/// 返回指定位置的元素，没有则返回null
+		public ListNode index(int index) {
+			ListNode temp = head.next;
+			int count = 0;
+			while (temp != null) {
+				if (count == index) {
+					return temp;
+				}
+				count++;
+				temp = temp.next;
+			}
+			return null;
 		}
 
 		/// 反转链表
@@ -160,5 +216,22 @@ public class Lesson02 {
 			return head.next;
 		}
 
+		/// 组成环,末尾节点指向index个节点
+		public void loop(int index) {
+			ListNode temp = head.next;
+			ListNode loopNode = index(index);
+			while (temp.next != null) {
+				temp = temp.next;
+			}
+			temp.next = loopNode;
+		}
+
+		public boolean isLoop() {
+			ListNode oldHead = head.next;
+			ListNode newHead = reverse();
+			if (oldHead == newHead)
+				return true;
+			return false;
+		}
 	}
 }
