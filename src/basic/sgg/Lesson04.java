@@ -84,18 +84,28 @@ public class Lesson04 {
 		System.out.printf("希尔排序用时(%d)：%d\n", n, useTime);
 	}
 
-	/// 希尔排序
+	/// 希尔排序2
 	static void test04_2(int[] arr, Sort sort, int n) {
-//		n = 100000;
-//		int[] arr = new int[n];
-//		for (int i = 0; i < n; i++) {
-//			arr[i] = N.getNum(10, 100);
-//		}
 		Date date = new Date();
-
 		sort.shellSort2(arr);
 		long useTime = new Date().getTime() - date.getTime();
 		System.out.printf("希尔排序2用时(%d)：%d\n", n, useTime);
+	}
+
+	/// 快速排序
+	static void test05(int[] arr, Sort sort, int n) {
+		Date date = new Date();
+		sort.quickSort(arr, 0, arr.length - 1);
+		long useTime = new Date().getTime() - date.getTime();
+		System.out.printf("快速排序用时(%d)：%d\n", n, useTime);
+	}
+
+	/// 快速排序2
+	static void test05_2(int[] arr, Sort sort, int n) {
+		Date date = new Date();
+		sort.quickSort2(arr, 0, arr.length - 1);
+		long useTime = new Date().getTime() - date.getTime();
+		System.out.printf("快速排序用时(%d)：%d\n", n, useTime);
 	}
 
 	/// 对数器验算
@@ -104,20 +114,22 @@ public class Lesson04 {
 //		count = 1;
 		Sort sort = new Sort();
 		for (int j = 1; j <= count; j++) {
-			int size = N.getNum(1, 5000000);
-//			size = 3;
+			int size = N.getNum(1, 10000000);
+//			size = 4;
 			int[] array = new int[size];
 			for (int i = 0; i < size; i++) {
 				array[i] = N.getNum(-size, size);
 			}
-//			array = new int[] { 2, 3, -2 };
+//			array = new int[] { -4, 3, 4, 0 };
 			int[] copyOf1 = Arrays.copyOf(array, size);
 			int[] copyOf2 = Arrays.copyOf(array, size);
 //			Arrays.sort(copyOf1);
 //			test03(copyOf1, sort, size);
 //			test03_2(copyOf2, sort, size);
-			test04(copyOf1, sort, size);
-			test04_2(copyOf2, sort, size);
+//			test04(copyOf1, sort, size);
+//			test04_2(copyOf2, sort, size);
+			test05(copyOf1, sort, size);
+			test05_2(copyOf2, sort, size);
 			for (int i = 0; i < size; i++) {
 				if (copyOf1[i] != copyOf2[i]) {
 					System.out.printf("原始数据：%s\n", Arrays.toString(array));
